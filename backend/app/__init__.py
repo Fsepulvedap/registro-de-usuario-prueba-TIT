@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
 
-    app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+    app.config["MONGO_URI"] = "mongodb+srv://fsepulvedap:<db_password>@cluster0.sjhopli.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
     mongo.init_app(app)  # Conecta la app a la base de datos
