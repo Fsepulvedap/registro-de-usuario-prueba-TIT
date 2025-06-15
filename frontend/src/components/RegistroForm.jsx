@@ -40,56 +40,57 @@ export default function RegistroForm() {
     }
 
     try {
-    const response = await axios.post('http://localhost:5000/api/registro', form);
+      const response = await axios.post('https://cautious-halibut-x5qj45qvp75hvrqw-5000.app.github.dev/api/registro', form);
 
-    setExito("Usuario registrado correctamente.");
-    setForm({ nombre: "", correo: "", contrasena: "" });
-  } catch (err) {
-    console.error(err);
-    if (err.response && err.response.data && err.response.data.error) {
-      setError(err.response.data.error);
-    } else {
-      setError("Error al registrar usuario. Intenta de nuevo más tarde.");
+      setExito(response.data.mensaje);  // Usamos el mensaje real del backend
+      setForm({ nombre: "", correo: "", contrasena: "" });
+      setTimeout(() => setExito(""), 3000);
+
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(`Error: ${err.response.data.error}`);
+      } else {
+        setError("Error al registrar usuario. Intenta de nuevo más tarde.");
+      }
     }
+  };  
+    return (
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Nombre completo:</label><br />
+          <input
+            type="text"
+            name="nombre"
+            value={form.nombre}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label>Correo electrónico:</label><br />
+          <input
+            type="email"
+            name="correo"
+            value={form.correo}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label>Contraseña:</label><br />
+          <input
+            type="password"
+            name="contrasena"
+            value={form.contrasena}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit">Registrar</button>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {exito && <p style={{ color: "green" }}>{exito}</p>}
+      </form>
+    );
   }
-};
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Nombre completo:</label><br />
-        <input
-          type="text"
-          name="nombre"
-          value={form.nombre}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label>Correo electrónico:</label><br />
-        <input
-          type="email"
-          name="correo"
-          value={form.correo}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label>Contraseña:</label><br />
-        <input
-          type="password"
-          name="contrasena"
-          value={form.contrasena}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button type="submit">Registrar</button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {exito && <p style={{ color: "green" }}>{exito}</p>}
-    </form>
-  );
-}
