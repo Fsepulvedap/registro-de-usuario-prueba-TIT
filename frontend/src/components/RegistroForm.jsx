@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 
 export default function RegistroForm() {
   const [form, setForm] = useState({
@@ -38,12 +39,20 @@ export default function RegistroForm() {
       return;
     }
 
-    
-    setExito("Formulario válido. (Simulación de envío)");
-    setForm({ nombre: "", correo: "", contrasena: "" });
+    try {
+    const response = await axios.post('http://localhost:5000/api/registro', form);
 
-    setTimeout(() => setExito(""), 3000);
-  };
+    setExito("Usuario registrado correctamente.");
+    setForm({ nombre: "", correo: "", contrasena: "" });
+  } catch (err) {
+    console.error(err);
+    if (err.response && err.response.data && err.response.data.error) {
+      setError(err.response.data.error);
+    } else {
+      setError("Error al registrar usuario. Intenta de nuevo más tarde.");
+    }
+  }
+};
 
   return (
     <form onSubmit={handleSubmit}>
