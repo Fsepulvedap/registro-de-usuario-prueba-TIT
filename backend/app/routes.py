@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash
 from . import mongo
+from .models import crear_usuario
 import re
 
 main = Blueprint('main', __name__)
@@ -26,13 +26,8 @@ def registrar_usuario():
     if usuario_existente:
         return jsonify({"error": "El correo ya está registrado"}), 400
     
-    hash_contrasena = generate_password_hash(contrasena)
-
-    nuevo_usuario = {
-        "nombre": nombre,
-        "correo": correo,
-        "contrasena": hash_contrasena
-    }
+    
+    nuevo_usuario = crear_usuario(nombre, correo, contrasena)
 
     mongo.db.usuarios.insert_one(nuevo_usuario)
 
