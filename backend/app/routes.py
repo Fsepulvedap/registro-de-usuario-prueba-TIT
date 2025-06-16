@@ -7,6 +7,8 @@ main = Blueprint('main', __name__)
 
 @main.route("/api/registro", methods=["POST"])
 def registrar_usuario():
+    print("➡️ Entró a /api/registro")
+    
     data = request.get_json()
 
     nombre = data.get("nombre")
@@ -45,3 +47,7 @@ def obtener_usuarios():
         })
 
     return jsonify(resultado)
+
+@main.route('/ping', methods=['GET'])
+def ping():
+    return {"message": "Servidor Flask funcionando"}

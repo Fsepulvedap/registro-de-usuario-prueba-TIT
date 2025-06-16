@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ListaUsuarios() { 
   const [usuarios, setUsuarios] = useState([]);
   const [mensaje, setMensaje] = useState("");
 
-  const cargarUsuarios = () => {    
-    const datosSimulados = [
-      { nombre: "Ana Pérez", correo: "ana@example.com" },
-      { nombre: "Juan Rodríguez", correo: "juan@example.com" },
-      { nombre: "Laura Gómez", correo: "laura@example.com" },
-    ];
-
-    setUsuarios(datosSimulados);
+  const cargarUsuarios = async () => {
+  try {
+    const response = await axios.get("https://cautious-halibut-x5qj45qvp75hvrqw-5000.app.github.dev/api/usuarios");
+    setUsuarios(response.data);
     setMensaje("Lista actualizada correctamente.");
-
     setTimeout(() => setMensaje(""), 3000);
-  };
+  } catch (error) {
+    console.error("Error al cargar usuarios:", error);
+    setMensaje("Error al cargar usuarios.");
+    setTimeout(() => setMensaje(""), 3000);
+  }
+};
 
   useEffect(() => {
     cargarUsuarios(); 
