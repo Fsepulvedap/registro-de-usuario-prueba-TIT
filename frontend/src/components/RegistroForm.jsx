@@ -54,8 +54,10 @@ export default function RegistroForm() {
         setError("Error al registrar usuario. Intenta de nuevo más tarde.");
       }
     }
-  };  
-    return (
+  };
+  return (
+    <div className="form-container">
+
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nombre completo:</label><br />
@@ -92,5 +94,6 @@ export default function RegistroForm() {
         {error && <p style={{ color: "red" }}>{error}</p>}
         {exito && <p style={{ color: "green" }}>{exito}</p>}
       </form>
-    );
-  }
+    </div>
+  );
+}

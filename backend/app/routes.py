@@ -8,7 +8,7 @@ main = Blueprint('main', __name__)
 @main.route("/api/registro", methods=["POST"])
 def registrar_usuario():
     print("➡️ Entró a /api/registro")
-    
+
     data = request.get_json()
 
     nombre = data.get("nombre")
@@ -24,20 +24,20 @@ def registrar_usuario():
     if len(contrasena) < 6:
         return jsonify({"error": "La contraseña debe tener al menos 6 caracteres"}), 400
 
-    usuario_existente = mongo.db.usuarios.find_one({"correo": correo})
+    usuario_existente = mongo.db.users.find_one({"correo": correo})
     if usuario_existente:
         return jsonify({"error": "El correo ya está registrado"}), 400
     
     
     nuevo_usuario = crear_usuario(nombre, correo, contrasena)
 
-    mongo.db.usuarios.insert_one(nuevo_usuario)
+    mongo.db.users.insert_one(nuevo_usuario)
 
     return jsonify({"mensaje": "Usuario registrado exitosamente"}), 201
 
 @main.route("/api/usuarios", methods=["GET"])
 def obtener_usuarios():
-    usuarios = mongo.db.usuarios.find()
+    usuarios = mongo.db.users.find({"nombre": {"$exists": True}, "correo": {"$exists": True}})
     resultado = []
 
     for usuario in usuarios:

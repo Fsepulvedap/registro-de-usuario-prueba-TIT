@@ -23,6 +23,8 @@ export default function ListaUsuarios() {
   }, []);
 
   return (
+    <div className="lista-usuarios-container">
+
     <div>
       <h2>Usuarios Registrados</h2>
       <button onClick={cargarUsuarios}>Actualizar Lista</button>
@@ -48,5 +50,6 @@ export default function ListaUsuarios() {
         </table>
       )}
     </div>
+      </div>
   );
 }

@@ -7,12 +7,11 @@ function App() {
   return (
 
     <div className="App">
-      <h1>Mini App de Registro</h1>
+      <h1>App de Registro</h1>
 
       <nav>
         <Link to="/">Registro</Link> | <Link to="/lista">Ver Lista</Link>
       </nav>
-
       <Routes>
         <Route path="/" element={<RegistroForm />} />
         <Route path="/lista" element={<ListaUsuarios />} />
